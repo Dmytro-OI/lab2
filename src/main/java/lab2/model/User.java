@@ -9,6 +9,7 @@ public class User {
     @NotBlank(message = "Ім'я користувача обов'язкове")
     private String username;
 
+    @NotBlank(message = "Email обов'язковий")
     @Email(message = "Некоректний формат email")
     private String email;
 

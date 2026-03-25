@@ -12,7 +12,15 @@ public class UserRepository {
     private final AtomicLong idGenerator = new AtomicLong(1);
 
     public UserRepository() {
-        save(new User(1L, "admin", "dmytro@lpnu.ua"));
+        save(new User(null, "admin", "dmytro@lpnu.ua"));
+    }
+
+    public List<User> findAll() {
+        return new ArrayList<>(users.values());
+    }
+
+    public Optional<User> findById(Long id) {
+        return Optional.ofNullable(users.get(id));
     }
 
     public boolean existsById(Long id) {

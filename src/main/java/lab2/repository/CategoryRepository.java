@@ -13,6 +13,7 @@ public class CategoryRepository {
 
     public CategoryRepository() {
         save(new Category(null, "Електроніка"));
+        save(new Category(null, "Аксесуари"));
     }
 
     public List<Category> findAll() { return new ArrayList<>(categories.values()); }
