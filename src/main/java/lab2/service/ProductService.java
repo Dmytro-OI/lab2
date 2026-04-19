@@ -2,12 +2,14 @@ package lab2.service;
 
 import lab2.exception.BadRequestException;
 import lab2.exception.NotFoundException;
-import org.springframework.stereotype.Service;
 import lab2.model.Product;
-import lab2.repository.ProductRepository;
 import lab2.repository.CategoryRepository;
+import lab2.repository.ProductRepository;
 import lab2.repository.UserRepository;
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class ProductService {
@@ -23,8 +25,17 @@ public class ProductService {
         this.userRepository = userRepository;
     }
 
-    public List<Product> getAll() {
-        return productRepository.findAll();
+    public Page<Product> getAll(Long categoryId, String name, Pageable pageable) {
+        if (categoryId != null && name != null) {
+            return productRepository.findByCategoryIdAndNameContainingIgnoreCase(categoryId, name, pageable);
+        }
+        if (categoryId != null) {
+            return productRepository.findByCategoryId(categoryId, pageable);
+        }
+        if (name != null) {
+            return productRepository.findByNameContainingIgnoreCase(name, pageable);
+        }
+        return productRepository.findAll(pageable);
     }
 
     public Product getById(Long id) {
@@ -32,12 +43,15 @@ public class ProductService {
                 .orElseThrow(() -> new NotFoundException("Товар з ID " + id + " не знайдено"));
     }
 
+    @Transactional
     public Product create(Product product) {
         validateRelations(product);
         applyDiscount(product);
+        product.setId(null);
         return productRepository.save(product);
     }
 
+    @Transactional
     public Product update(Long id, Product updatedProduct) {
         Product existing = getById(id);
         validateRelations(updatedProduct);
@@ -52,9 +66,10 @@ public class ProductService {
         return productRepository.save(existing);
     }
 
+    @Transactional
     public void delete(Long id) {
-        if (productRepository.findById(id).isEmpty()) {
-            throw new NotFoundException("Неможливо видалити: товар з ID " + id + " не знайдено");
+        if (!productRepository.existsById(id)) {
+            throw new NotFoundException("Товар з ID " + id + " не знайдено");
         }
         productRepository.deleteById(id);
     }

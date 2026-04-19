@@ -4,6 +4,7 @@ import lab2.exception.NotFoundException;
 import lab2.model.Category;
 import lab2.repository.CategoryRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -24,7 +25,24 @@ public class CategoryService {
                 .orElseThrow(() -> new NotFoundException("Категорію з ID " + id + " не знайдено"));
     }
 
+    @Transactional
     public Category create(Category category) {
+        category.setId(null);
         return categoryRepository.save(category);
+    }
+
+    @Transactional
+    public Category update(Long id, Category updated) {
+        Category existing = getById(id);
+        existing.setName(updated.getName());
+        return categoryRepository.save(existing);
+    }
+
+    @Transactional
+    public void delete(Long id) {
+        if (!categoryRepository.existsById(id)) {
+            throw new NotFoundException("Категорію з ID " + id + " не знайдено");
+        }
+        categoryRepository.deleteById(id);
     }
 }

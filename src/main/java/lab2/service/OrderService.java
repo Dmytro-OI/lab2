@@ -10,6 +10,7 @@ import lab2.repository.OrderRepository;
 import lab2.repository.ProductRepository;
 import lab2.repository.UserRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -30,7 +31,10 @@ public class OrderService {
         this.productRepository = productRepository;
     }
 
-    public List<CustomerOrder> getAll() {
+    public List<CustomerOrder> getAll(Long userId) {
+        if (userId != null) {
+            return orderRepository.findByUserId(userId);
+        }
         return orderRepository.findAll();
     }
 
@@ -39,6 +43,7 @@ public class OrderService {
                 .orElseThrow(() -> new NotFoundException("Замовлення з ID " + id + " не знайдено"));
     }
 
+    @Transactional
     public CustomerOrder create(CustomerOrder order) {
         if (!userRepository.existsById(order.getUserId())) {
             throw new BadRequestException("Користувача з ID " + order.getUserId() + " не існує");
@@ -54,31 +59,36 @@ public class OrderService {
             requestedQuantityByProduct.merge(product.getId(), item.getQuantity(), Integer::sum);
         }
 
-        for (Map.Entry<Long, Integer> requestEntry : requestedQuantityByProduct.entrySet()) {
-            Product product = productsById.get(requestEntry.getKey());
-            Integer requestedQuantity = requestEntry.getValue();
-            if (product.getStockQuantity() < requestedQuantity) {
-                throw new BadRequestException(
-                        "Недостатньо товару на складі. productId=" + product.getId()
-                );
+        for (Map.Entry<Long, Integer> entry : requestedQuantityByProduct.entrySet()) {
+            Product product = productsById.get(entry.getKey());
+            if (product.getStockQuantity() < entry.getValue()) {
+                throw new BadRequestException("Недостатньо товару на складі. productId=" + product.getId());
             }
         }
 
         double total = 0.0;
-        for (Map.Entry<Long, Integer> requestEntry : requestedQuantityByProduct.entrySet()) {
-            Product product = productsById.get(requestEntry.getKey());
-            Integer requestedQuantity = requestEntry.getValue();
-            total += product.getPrice() * requestedQuantity;
-            product.setStockQuantity(product.getStockQuantity() - requestedQuantity);
+        for (Map.Entry<Long, Integer> entry : requestedQuantityByProduct.entrySet()) {
+            Product product = productsById.get(entry.getKey());
+            Integer qty = entry.getValue();
+            total += product.getPrice() * qty;
+            product.setStockQuantity(product.getStockQuantity() - qty);
             productRepository.save(product);
         }
 
+        order.setId(null);
         order.setTotalAmount(total);
         order.setStatus(OrderStatus.CREATED);
         order.setCreatedAt(LocalDateTime.now());
+
+        for (OrderItem item : order.getItems()) {
+            item.setOrder(order);
+            item.setPrice(productsById.get(item.getProductId()).getPrice());
+        }
+
         return orderRepository.save(order);
     }
 
+    @Transactional
     public CustomerOrder updateStatus(Long id, OrderStatus newStatus) {
         CustomerOrder order = getById(id);
         OrderStatus current = order.getStatus();

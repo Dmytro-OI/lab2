@@ -12,17 +12,17 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 
 @Entity
-@Table(name = "order_items")
-public class OrderItem {
+@Table(name = "cart_items")
+public class CartItem {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "order_id")
+    @JoinColumn(name = "cart_id")
     @JsonIgnore
-    private CustomerOrder order;
+    private Cart cart;
 
     @NotNull(message = "ID товару обов'язковий")
     private Long productId;
@@ -31,18 +31,14 @@ public class OrderItem {
     @Min(value = 1, message = "Кількість має бути не менше 1")
     private Integer quantity;
 
-    private Double price;
-
-    public OrderItem() {}
+    public CartItem() {}
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
-    public CustomerOrder getOrder() { return order; }
-    public void setOrder(CustomerOrder order) { this.order = order; }
+    public Cart getCart() { return cart; }
+    public void setCart(Cart cart) { this.cart = cart; }
     public Long getProductId() { return productId; }
     public void setProductId(Long productId) { this.productId = productId; }
     public Integer getQuantity() { return quantity; }
     public void setQuantity(Integer quantity) { this.quantity = quantity; }
-    public Double getPrice() { return price; }
-    public void setPrice(Double price) { this.price = price; }
 }
