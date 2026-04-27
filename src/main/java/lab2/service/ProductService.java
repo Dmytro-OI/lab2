@@ -46,7 +46,6 @@ public class ProductService {
     @Transactional
     public Product create(Product product) {
         validateRelations(product);
-        applyDiscount(product);
         product.setId(null);
         return productRepository.save(product);
     }
@@ -61,7 +60,6 @@ public class ProductService {
         existing.setStockQuantity(updatedProduct.getStockQuantity());
         existing.setCategoryId(updatedProduct.getCategoryId());
         existing.setOwnerId(updatedProduct.getOwnerId());
-        applyDiscount(existing);
 
         return productRepository.save(existing);
     }
@@ -83,9 +81,4 @@ public class ProductService {
         }
     }
 
-    private void applyDiscount(Product product) {
-        if (product.getPrice() != null && product.getPrice() > 5000) {
-            product.setPrice(product.getPrice() * 0.9);
-        }
-    }
 }

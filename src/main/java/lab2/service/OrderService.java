@@ -19,6 +19,8 @@ import java.util.Map;
 
 @Service
 public class OrderService {
+    private static final String PROMO_CODE = "Hrynchyshyn";
+    private static final double PROMO_DISCOUNT_RATE = 0.10;
     private final OrderRepository orderRepository;
     private final UserRepository userRepository;
     private final ProductRepository productRepository;
@@ -73,6 +75,9 @@ public class OrderService {
             total += product.getPrice() * qty;
             product.setStockQuantity(product.getStockQuantity() - qty);
             productRepository.save(product);
+        }
+        if (PROMO_CODE.equalsIgnoreCase(order.getPromoCode())) {
+            total = total * (1 - PROMO_DISCOUNT_RATE);
         }
 
         order.setId(null);

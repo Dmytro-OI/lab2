@@ -35,6 +35,7 @@ public class CustomerOrder {
     private List<OrderItem> items = new ArrayList<>();
 
     private Double totalAmount;
+    private String promoCode;
 
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
@@ -51,6 +52,8 @@ public class CustomerOrder {
     public void setItems(List<OrderItem> items) { this.items = items; }
     public Double getTotalAmount() { return totalAmount; }
     public void setTotalAmount(Double totalAmount) { this.totalAmount = totalAmount; }
+    public String getPromoCode() { return promoCode; }
+    public void setPromoCode(String promoCode) { this.promoCode = promoCode; }
     public OrderStatus getStatus() { return status; }
     public void setStatus(OrderStatus status) { this.status = status; }
     public LocalDateTime getCreatedAt() { return createdAt; }
