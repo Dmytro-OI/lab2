@@ -1,0 +1,390 @@
+{
+  "info": {
+    "name": "Lab4 - Microservices",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Catalog Service (8081)",
+      "item": [
+        {
+          "name": "Users",
+          "item": [
+            {
+              "name": "GET all users",
+              "request": {
+                "method": "GET",
+                "url": "http://localhost:8081/api/users"
+              }
+            },
+            {
+              "name": "GET user by ID",
+              "request": {
+                "method": "GET",
+                "url": "http://localhost:8081/api/users/1"
+              }
+            },
+            {
+              "name": "POST create user",
+              "request": {
+                "method": "POST",
+                "url": "http://localhost:8081/api/users",
+                "header": [{"key": "Content-Type", "value": "application/json"}],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"username\": \"testuser\",\n  \"email\": \"test@lpnu.ua\"\n}"
+                }
+              }
+            },
+            {
+              "name": "PUT update user",
+              "request": {
+                "method": "PUT",
+                "url": "http://localhost:8081/api/users/1",
+                "header": [{"key": "Content-Type", "value": "application/json"}],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"username\": \"admin_updated\",\n  \"email\": \"dmytro_new@lpnu.ua\"\n}"
+                }
+              }
+            },
+            {
+              "name": "DELETE user",
+              "request": {
+                "method": "DELETE",
+                "url": "http://localhost:8081/api/users/2"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Categories",
+          "item": [
+            {
+              "name": "GET all categories",
+              "request": {
+                "method": "GET",
+                "url": "http://localhost:8081/api/categories"
+              }
+            },
+            {
+              "name": "GET category by ID",
+              "request": {
+                "method": "GET",
+                "url": "http://localhost:8081/api/categories/1"
+              }
+            },
+            {
+              "name": "POST create category",
+              "request": {
+                "method": "POST",
+                "url": "http://localhost:8081/api/categories",
+                "header": [{"key": "Content-Type", "value": "application/json"}],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"Побутова техніка\"\n}"
+                }
+              }
+            },
+            {
+              "name": "PUT update category",
+              "request": {
+                "method": "PUT",
+                "url": "http://localhost:8081/api/categories/1",
+                "header": [{"key": "Content-Type", "value": "application/json"}],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"Електроніка та гаджети\"\n}"
+                }
+              }
+            },
+            {
+              "name": "DELETE category",
+              "request": {
+                "method": "DELETE",
+                "url": "http://localhost:8081/api/categories/3"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Products",
+          "item": [
+            {
+              "name": "GET all products",
+              "request": {
+                "method": "GET",
+                "url": "http://localhost:8081/api/products"
+              }
+            },
+            {
+              "name": "GET products by category",
+              "request": {
+                "method": "GET",
+                "url": "http://localhost:8081/api/products?categoryId=1"
+              }
+            },
+            {
+              "name": "GET products by name",
+              "request": {
+                "method": "GET",
+                "url": "http://localhost:8081/api/products?name=Ноут"
+              }
+            },
+            {
+              "name": "GET product by ID",
+              "request": {
+                "method": "GET",
+                "url": "http://localhost:8081/api/products/1"
+              }
+            },
+            {
+              "name": "POST create product",
+              "request": {
+                "method": "POST",
+                "url": "http://localhost:8081/api/products",
+                "header": [{"key": "Content-Type", "value": "application/json"}],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"Клавіатура\",\n  \"price\": 1500.0,\n  \"stockQuantity\": 15,\n  \"categoryId\": 1,\n  \"ownerId\": 1\n}"
+                }
+              }
+            },
+            {
+              "name": "PUT update product",
+              "request": {
+                "method": "PUT",
+                "url": "http://localhost:8081/api/products/1",
+                "header": [{"key": "Content-Type", "value": "application/json"}],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"Ноутбук Pro\",\n  \"price\": 35000.0,\n  \"stockQuantity\": 4,\n  \"categoryId\": 1,\n  \"ownerId\": 1\n}"
+                }
+              }
+            },
+            {
+              "name": "PATCH deduct stock (internal)",
+              "request": {
+                "method": "PATCH",
+                "url": "http://localhost:8081/api/products/1/stock",
+                "header": [{"key": "Content-Type", "value": "application/json"}],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"quantity\": 1\n}"
+                }
+              }
+            },
+            {
+              "name": "DELETE product",
+              "request": {
+                "method": "DELETE",
+                "url": "http://localhost:8081/api/products/3"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Order Service (8082)",
+      "item": [
+        {
+          "name": "Orders",
+          "item": [
+            {
+              "name": "GET all orders",
+              "request": {
+                "method": "GET",
+                "url": "http://localhost:8082/api/orders"
+              }
+            },
+            {
+              "name": "GET orders by userId",
+              "request": {
+                "method": "GET",
+                "url": "http://localhost:8082/api/orders?userId=1"
+              }
+            },
+            {
+              "name": "GET order by ID",
+              "request": {
+                "method": "GET",
+                "url": "http://localhost:8082/api/orders/1"
+              }
+            },
+            {
+              "name": "POST create order",
+              "request": {
+                "method": "POST",
+                "url": "http://localhost:8082/api/orders",
+                "header": [{"key": "Content-Type", "value": "application/json"}],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"userId\": 1,\n  \"items\": [\n    {\"productId\": 1, \"quantity\": 1},\n    {\"productId\": 2, \"quantity\": 2}\n  ]\n}"
+                }
+              }
+            },
+            {
+              "name": "POST create order with promo",
+              "request": {
+                "method": "POST",
+                "url": "http://localhost:8082/api/orders",
+                "header": [{"key": "Content-Type", "value": "application/json"}],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"userId\": 1,\n  \"promoCode\": \"Hrynchyshyn\",\n  \"items\": [\n    {\"productId\": 1, \"quantity\": 1}\n  ]\n}"
+                }
+              }
+            },
+            {
+              "name": "PATCH update order status",
+              "request": {
+                "method": "PATCH",
+                "url": "http://localhost:8082/api/orders/1/status",
+                "header": [{"key": "Content-Type", "value": "application/json"}],
+                "body": {
+                  "mode": "raw",
+                  "raw": "\"SHIPPED\""
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Carts",
+          "item": [
+            {
+              "name": "GET cart",
+              "request": {
+                "method": "GET",
+                "url": "http://localhost:8082/api/carts/1"
+              }
+            },
+            {
+              "name": "POST add item to cart",
+              "request": {
+                "method": "POST",
+                "url": "http://localhost:8082/api/carts/1/items",
+                "header": [{"key": "Content-Type", "value": "application/json"}],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"productId\": 2,\n  \"quantity\": 3\n}"
+                }
+              }
+            },
+            {
+              "name": "DELETE remove item from cart",
+              "request": {
+                "method": "DELETE",
+                "url": "http://localhost:8082/api/carts/1/items/1"
+              }
+            },
+            {
+              "name": "DELETE clear cart",
+              "request": {
+                "method": "DELETE",
+                "url": "http://localhost:8082/api/carts/1"
+              }
+            },
+            {
+              "name": "POST checkout",
+              "request": {
+                "method": "POST",
+                "url": "http://localhost:8082/api/carts/1/checkout",
+                "header": [{"key": "Content-Type", "value": "application/json"}],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"promoCode\": \"Hrynchyshyn\"\n}"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Payment Service (8083)",
+      "item": [
+        {
+          "name": "GET all payments",
+          "request": {
+            "method": "GET",
+            "url": "http://localhost:8083/api/payments"
+          }
+        },
+        {
+          "name": "GET payment by ID",
+          "request": {
+            "method": "GET",
+            "url": "http://localhost:8083/api/payments/1"
+          }
+        },
+        {
+          "name": "POST create payment",
+          "request": {
+            "method": "POST",
+            "url": "http://localhost:8083/api/payments",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"orderId\": 1\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Error Scenarios",
+      "item": [
+        {
+          "name": "Order when catalog-service is DOWN (503)",
+          "request": {
+            "method": "POST",
+            "url": "http://localhost:8082/api/orders",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userId\": 1,\n  \"items\": [{\"productId\": 1, \"quantity\": 1}]\n}"
+            }
+          }
+        },
+        {
+          "name": "Payment when order-service is DOWN (503)",
+          "request": {
+            "method": "POST",
+            "url": "http://localhost:8083/api/payments",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"orderId\": 1\n}"
+            }
+          }
+        },
+        {
+          "name": "Order with non-existent user (400)",
+          "request": {
+            "method": "POST",
+            "url": "http://localhost:8082/api/orders",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userId\": 999,\n  \"items\": [{\"productId\": 1, \"quantity\": 1}]\n}"
+            }
+          }
+        },
+        {
+          "name": "Payment for already paid order (400)",
+          "request": {
+            "method": "POST",
+            "url": "http://localhost:8083/api/payments",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"orderId\": 1\n}"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
