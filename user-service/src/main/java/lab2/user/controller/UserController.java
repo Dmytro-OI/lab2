@@ -1,8 +1,8 @@
-package lab2.catalog.controller;
+package lab2.user.controller;
 
 import jakarta.validation.Valid;
-import lab2.catalog.model.User;
-import lab2.catalog.service.UserService;
+import lab2.user.model.User;
+import lab2.user.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 

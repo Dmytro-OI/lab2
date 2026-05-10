@@ -1,4 +1,4 @@
-package lab2.catalog.model;
+package lab2.user.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

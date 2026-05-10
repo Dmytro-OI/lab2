@@ -1,6 +1,3 @@
-MERGE INTO users (id, username, email) KEY (id)
-VALUES (1, 'admin', 'dmytro@lpnu.ua');
-
 MERGE INTO categories (id, name) KEY (id)
 VALUES (1, 'Електроніка');
 MERGE INTO categories (id, name) KEY (id)

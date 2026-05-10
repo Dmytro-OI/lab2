@@ -28,17 +28,6 @@ public class CatalogClient {
         this.catalogUrl = catalogUrl;
     }
 
-    public boolean userExists(Long userId) {
-        try {
-            restTemplate.getForEntity(catalogUrl + "/api/users/" + userId, Object.class);
-            return true;
-        } catch (HttpClientErrorException.NotFound e) {
-            return false;
-        } catch (RestClientException e) {
-            throw new ServiceUnavailableException("Сервіс каталогу недоступний");
-        }
-    }
-
     @SuppressWarnings("unchecked")
     public Map<String, Object> getProduct(Long productId) {
         try {

@@ -1,6 +1,6 @@
-package lab2.catalog.repository;
+package lab2.user.repository;
 
-import lab2.catalog.model.User;
+import lab2.user.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface UserRepository extends JpaRepository<User, Long> {

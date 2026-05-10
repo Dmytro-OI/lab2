@@ -1,8 +1,8 @@
-package lab2.catalog.service;
+package lab2.user.service;
 
-import lab2.catalog.exception.NotFoundException;
-import lab2.catalog.model.User;
-import lab2.catalog.repository.UserRepository;
+import lab2.user.exception.NotFoundException;
+import lab2.user.model.User;
+import lab2.user.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

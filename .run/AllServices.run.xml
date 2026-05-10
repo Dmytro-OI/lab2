@@ -1,5 +1,6 @@
 ﻿<component name="ProjectRunConfigurationManager">
   <configuration default="false" name="AllServices" type="CompoundRunConfigurationType" factoryName="Compound">
+    <toRun name="UserService" type="SpringBootApplicationConfigurationType" />
     <toRun name="CatalogService" type="SpringBootApplicationConfigurationType" />
     <toRun name="OrderService" type="SpringBootApplicationConfigurationType" />
     <toRun name="PaymentService" type="SpringBootApplicationConfigurationType" />

@@ -1,6 +1,7 @@
 package lab2.order.service;
 
 import lab2.order.client.CatalogClient;
+import lab2.order.client.UserClient;
 import lab2.order.exception.BadRequestException;
 import lab2.order.exception.NotFoundException;
 import lab2.order.model.*;
@@ -17,17 +18,20 @@ import java.util.Optional;
 public class CartService {
     private final CartRepository cartRepository;
     private final CatalogClient catalogClient;
+    private final UserClient userClient;
     private final OrderService orderService;
 
-    public CartService(CartRepository cartRepository, CatalogClient catalogClient, OrderService orderService) {
+    public CartService(CartRepository cartRepository, CatalogClient catalogClient,
+                       UserClient userClient, OrderService orderService) {
         this.cartRepository = cartRepository;
         this.catalogClient = catalogClient;
+        this.userClient = userClient;
         this.orderService = orderService;
     }
 
     @Transactional
     public Cart getOrCreateCart(Long userId) {
-        if (!catalogClient.userExists(userId)) {
+        if (!userClient.userExists(userId)) {
             throw new NotFoundException("Користувача з ID " + userId + " не знайдено");
         }
         return cartRepository.findByUserId(userId).orElseGet(() -> {

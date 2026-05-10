@@ -1,11 +1,11 @@
 package lab2.catalog.service;
 
+import lab2.catalog.client.UserClient;
 import lab2.catalog.exception.BadRequestException;
 import lab2.catalog.exception.NotFoundException;
 import lab2.catalog.model.Product;
 import lab2.catalog.repository.CategoryRepository;
 import lab2.catalog.repository.ProductRepository;
-import lab2.catalog.repository.UserRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -15,14 +15,14 @@ import org.springframework.transaction.annotation.Transactional;
 public class ProductService {
     private final ProductRepository productRepository;
     private final CategoryRepository categoryRepository;
-    private final UserRepository userRepository;
+    private final UserClient userClient;
 
     public ProductService(ProductRepository productRepository,
                           CategoryRepository categoryRepository,
-                          UserRepository userRepository) {
+                          UserClient userClient) {
         this.productRepository = productRepository;
         this.categoryRepository = categoryRepository;
-        this.userRepository = userRepository;
+        this.userClient = userClient;
     }
 
     public Page<Product> getAll(Long categoryId, String name, Pageable pageable) {
@@ -84,7 +84,7 @@ public class ProductService {
         if (!categoryRepository.existsById(product.getCategoryId())) {
             throw new BadRequestException("Категорії з ID " + product.getCategoryId() + " не існує");
         }
-        if (!userRepository.existsById(product.getOwnerId())) {
+        if (!userClient.userExists(product.getOwnerId())) {
             throw new BadRequestException("Користувача (власника) з ID " + product.getOwnerId() + " не існує");
         }
     }

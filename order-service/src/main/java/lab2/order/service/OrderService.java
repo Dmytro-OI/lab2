@@ -1,6 +1,7 @@
 package lab2.order.service;
 
 import lab2.order.client.CatalogClient;
+import lab2.order.client.UserClient;
 import lab2.order.exception.BadRequestException;
 import lab2.order.exception.NotFoundException;
 import lab2.order.model.CustomerOrder;
@@ -22,10 +23,12 @@ public class OrderService {
 
     private final OrderRepository orderRepository;
     private final CatalogClient catalogClient;
+    private final UserClient userClient;
 
-    public OrderService(OrderRepository orderRepository, CatalogClient catalogClient) {
+    public OrderService(OrderRepository orderRepository, CatalogClient catalogClient, UserClient userClient) {
         this.orderRepository = orderRepository;
         this.catalogClient = catalogClient;
+        this.userClient = userClient;
     }
 
     public List<CustomerOrder> getAll(Long userId) {
@@ -42,7 +45,7 @@ public class OrderService {
 
     @Transactional
     public CustomerOrder create(CustomerOrder order) {
-        if (!catalogClient.userExists(order.getUserId())) {
+        if (!userClient.userExists(order.getUserId())) {
             throw new BadRequestException("Користувача з ID " + order.getUserId() + " не існує");
         }
 
